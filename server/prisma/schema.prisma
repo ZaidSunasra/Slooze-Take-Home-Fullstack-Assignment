@@ -1,0 +1,119 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Country {
+  id          Int          @id @default(autoincrement())
+  name        String
+  users       User[]
+  restaurants Restaurant[]
+  carts       Cart[]
+}
+
+model User {
+  id         Int      @id @default(autoincrement())
+  name       String
+  email      String
+  password   String
+  role       Role
+  country    Country? @relation(fields: [country_id], references: [id])
+  country_id Int?
+  carts      Cart[]
+
+  @@index([country_id])
+}
+
+model Restaurant {
+  id         Int              @id @default(autoincrement())
+  name       String
+  country    Country          @relation(fields: [country_id], references: [id])
+  country_id Int
+  items      RestaurantItem[]
+  carts      Cart[]
+
+  @@index([country_id])
+}
+
+model RestaurantItem {
+  id            Int        @id @default(autoincrement())
+  name          String
+  price         Int
+  restaurant    Restaurant @relation(fields: [restaurant_id], references: [id])
+  restaurant_id Int
+  cartItems     CartItem[]
+
+  @@index([restaurant_id])
+}
+
+model Cart {
+  id           Int         @id @default(autoincrement())
+  created_by   User        @relation(fields: [user_id], references: [id])
+  user_id      Int
+  status       Cart_Status
+  total_amount Int
+  created_at   DateTime    @default(now())
+  country      Country     @relation(fields: [country_id], references: [id])
+  country_id   Int
+  restaurant   Restaurant  @relation(fields: [restaurant_id], references: [id])
+  items        CartItem[]
+  restaurant_id Int
+
+  @@index([country_id])
+}
+
+model CartItem {
+  id       Int            @id @default(autoincrement())
+  cart     Cart           @relation(fields: [cart_id], references: [id], onDelete: Cascade)
+  cart_id  Int
+  item     RestaurantItem @relation(fields: [item_id], references: [id])
+  item_id  Int
+  price    Int
+  quantity Int
+
+  @@index([cart_id])
+}
+
+model Permission {
+  id            Int    @id @default(autoincrement())
+  name          String
+  allowed_roles Role[]
+}
+
+model Payment {
+  id           Int          @id @default(autoincrement())
+  type         Payment_Mode
+  expiry_year  String?
+  expiry_date  String?
+  upi_id       String?
+  card_number  String?
+  phone_number String?
+}
+
+enum Payment_Mode {
+  upi
+  card
+  wallet
+}
+
+enum Cart_Status {
+  draft
+  placed
+  cancelled
+}
+
+enum Role {
+  admin
+  manager
+  member
+}

@@ -1,0 +1,7 @@
+-- AlterTable
+ALTER TABLE "Cart" ALTER COLUMN "created_at" SET DEFAULT CURRENT_TIMESTAMP;
+
+-- AlterTable
+ALTER TABLE "Payment" ALTER COLUMN "expiry_year" SET DATA TYPE TEXT,
+ALTER COLUMN "expiry_date" SET DATA TYPE TEXT,
+ALTER COLUMN "card_number" SET DATA TYPE TEXT;
