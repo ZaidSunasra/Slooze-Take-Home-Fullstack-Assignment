@@ -1,8 +1,13 @@
+import { Toaster } from "sonner"
+import { AppContext } from "./context/AppContext"
+import Router from "./routes/route"
+
 const App = () => {
   return (
-    <div>
-      App
-    </div>
+    <AppContext>
+      <Toaster richColors expand={true} closeButton />
+      <Router />
+    </AppContext>
   )
 }
 
