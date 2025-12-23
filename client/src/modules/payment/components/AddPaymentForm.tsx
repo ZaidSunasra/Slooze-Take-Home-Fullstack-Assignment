@@ -155,7 +155,7 @@ const AddPaymentForm = ({ setDialog }: { setDialog: Dispatch<SetStateAction<bool
                         </div>
                     }
                     <div className="flex justify-between">
-                        <Button type="submit">
+                        <Button type="submit" disabled={addPayment.isPending}>
                             Save Payment
                         </Button>
                     </div>

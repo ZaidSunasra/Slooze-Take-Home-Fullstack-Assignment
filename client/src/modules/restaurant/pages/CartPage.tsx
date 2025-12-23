@@ -148,7 +148,7 @@ const CartPage = () => {
                     }
                     <DialogFooter>
                         {(paymentId || user?.role === "member") &&
-                            <Button type="submit" className="bg-green-400 hover:bg-green-500" onClick={handleAddOrder} >
+                            <Button type="submit" className="bg-green-400 hover:bg-green-500" onClick={handleAddOrder} disabled={addOrder.isPending}>
                                 Place Order
                             </Button>
                         }

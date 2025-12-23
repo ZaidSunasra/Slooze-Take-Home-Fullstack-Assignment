@@ -157,7 +157,7 @@ return (
           </div>
         }
         <div className="flex justify-between">
-          <Button type="submit">
+          <Button type="submit" disabled={editPayment.isPending}>
             Save Payment
           </Button>
         </div>

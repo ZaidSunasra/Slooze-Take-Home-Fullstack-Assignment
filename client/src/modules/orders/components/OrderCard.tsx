@@ -114,7 +114,7 @@ const OrderCard = ({ order }: OrderCardProps) => {
                                 <DialogClose asChild>
                                     <Button variant="outline">Cancel</Button>
                                 </DialogClose>
-                                <Button type="submit" variant="destructive" onClick={() => onCancel(String(dialog.data))}>
+                                <Button type="submit" variant="destructive" onClick={() => onCancel(String(dialog.data))} disabled={cancelOrder.isPending}>
                                     Cancel Order
                                 </Button>
                             </DialogFooter>
@@ -132,7 +132,7 @@ const OrderCard = ({ order }: OrderCardProps) => {
                             }
                             <DialogFooter>
                                 {paymentId &&
-                                    <Button type="submit" className="bg-green-400 hover:bg-green-500" onClick={() => onPlace(String(dialog.data))} >
+                                    <Button type="submit" className="bg-green-400 hover:bg-green-500" onClick={() => onPlace(String(dialog.data))} disabled={placeOrder.isPending}>
                                         Place Order
                                     </Button>
                                 }
