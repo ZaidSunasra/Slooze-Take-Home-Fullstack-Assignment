@@ -9,16 +9,20 @@ import type { role } from "@/lib/globalType"
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useLogout } from "@/api/auth/auth.mutation";
 import Logo from "@/assets/logo.svg"
+import { useCart } from "@/context/CartContext";
+import { Badge } from "./ui/badge";
 
 const SideBar = () => {
 
   const { user } = useUser();
+  const {items} = useCart();
   const isMobile = useIsMobile()
   const navigate = useNavigate();
   const location = useLocation()
   const logout = useLogout();
 
   const accessibleMenuItems = navItems[user?.role as role];
+  const totalItem = items.reduce((sum, qty) => sum + qty.quantity, 0);
 
   const handleLogut = () => {
     logout.mutate();
@@ -49,6 +53,7 @@ const SideBar = () => {
                         >
                           <item.icon />
                           <span>{item.title}</span>
+                          {item.title == "Cart" && <Badge>{totalItem}</Badge>}
                         </SidebarMenuButton>
                       </SidebarMenuItem>
                     )
