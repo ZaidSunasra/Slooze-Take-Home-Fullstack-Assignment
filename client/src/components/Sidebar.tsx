@@ -2,12 +2,13 @@ import { useUser } from "@/context/UserContext"
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarRail, SidebarTrigger } from "@/components/ui/sidebar"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger, } from '@/components/ui/dropdown-menu';
 import { Avatar } from '@/components/ui/avatar';
-import { ChevronsUpDown, LogOut, Store } from "lucide-react"
+import { ChevronsUpDown, LogOut } from "lucide-react"
 import { useLocation, useNavigate } from "react-router"
 import { navItems } from "@/utils/NavLink"
 import type { role } from "@/lib/globalType"
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useLogout } from "@/api/auth/auth.mutation";
+import Logo from "@/assets/logo.svg"
 
 const SideBar = () => {
 
@@ -29,7 +30,7 @@ const SideBar = () => {
         <Sidebar variant="sidebar" collapsible="icon" className="border-r border-gray-200">
           <SidebarHeader className="border-b border-gray-200">
             <SidebarMenuButton>
-              <Store className="invisible" />
+              <img src={Logo} className="w-10 h-auto"/>
               <h2 className="text-lg font-semibold"> Multiverse </h2>
             </SidebarMenuButton>
           </SidebarHeader>
