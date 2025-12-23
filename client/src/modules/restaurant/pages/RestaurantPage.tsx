@@ -2,14 +2,14 @@ import { FetchRestaurantDetail } from "@/api/restaurant/restaurant.queries"
 import SideBar from "@/components/Sidebar"
 import RestaurantCard from "../components/RestaurantCard";
 import type { GetRestaurant } from "@/api/restaurant/restaurant.type";
+import PageSkeleton from "@/components/PageSkeleton";
 
 const RestaurantPage = () => {
 
   const { data, isPending, isError } = FetchRestaurantDetail();
 
-  if (isError || isPending) return <>Loading..</>
-
-  console.log(data)
+  if (isPending) return <PageSkeleton />
+  if (isError) return <>Something went wrong...</>
 
   return (
     <div className="bg-accent min-h-screen flex">
@@ -24,7 +24,7 @@ const RestaurantPage = () => {
               Assemble your order from the finest hero-themed restaurants
             </p>
           </div>
-          <RestaurantCard restaurants={data.restaurants as GetRestaurant}/>
+          <RestaurantCard restaurants={data.restaurants as GetRestaurant} />
         </div>
       </div>
     </div>

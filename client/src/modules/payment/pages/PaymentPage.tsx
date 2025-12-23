@@ -7,6 +7,7 @@ import PaymentCard from "../components/PaymentCard";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import AddPaymentForm from "../components/AddPaymentForm";
+import PageSkeleton from "@/components/PageSkeleton";
 
 const PaymentPage = () => {
 
@@ -14,7 +15,7 @@ const PaymentPage = () => {
 
     const [dialog, setDialog] = useState<boolean>(false);
 
-    if (isPending) return <>Loading...</>;
+    if (isPending) return <PageSkeleton />;
     if (isError) return <>Something went wrong</>;
 
     return (

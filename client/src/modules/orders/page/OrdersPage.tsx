@@ -1,12 +1,13 @@
 import { FetchOrders } from "@/api/order/order.queries";
 import SideBar from "@/components/Sidebar";
 import OrderCard from "../components/OrderCard";
+import PageSkeleton from "@/components/PageSkeleton";
 
 const OrdersPage = () => {
 
   const { data, isPending, isError } = FetchOrders();
 
-  if (isPending) return <>Loading...</>;
+  if (isPending) return <PageSkeleton />;
   if (isError) return <>Something went wrong</>;
 
   const orders = data?.orders ?? [];

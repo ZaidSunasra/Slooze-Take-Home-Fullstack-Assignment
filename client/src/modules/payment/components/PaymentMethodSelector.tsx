@@ -2,6 +2,7 @@ import { CreditCard, Wallet, Smartphone, type LucideIcon } from "lucide-react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { FetchPayments } from "@/api/payment/payment.queries";
 import { maskCard, maskPhone, maskUpi } from "@/utils/customStyle";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type CheckoutPaymentProps = {
     selectedPaymentId: string | null;
@@ -12,7 +13,7 @@ const CheckoutPaymentMethods = ({ selectedPaymentId, onSelectPayment }: Checkout
 
     const { data, isPending, isError } = FetchPayments();
 
-    if (isPending) return <>Loading...</>;
+    if (isPending) return <div className="space-y-3"><Skeleton className="w-full h-10 bg-primary-foreground" /><Skeleton className="w-full h-10 bg-primary-foreground" /></div>;
     if (isError) return <>Something went wrong</>;
 
     return (
