@@ -42,12 +42,7 @@ const PaymentCard = ({ payment }: { payment: Payment }) => {
         }
     };
 
-    const Icon: LucideIcon =
-        payment.type === "card"
-            ? CreditCard
-            : payment.type === "upi"
-                ? Smartphone
-                : Wallet;
+    const Icon: LucideIcon = payment.type === "card" ? CreditCard : payment.type === "upi" ? Smartphone: Wallet;
 
     return (
         <div className="rounded-xl border bg-background p-4 shadow-sm hover:shadow-md transition">
@@ -74,7 +69,7 @@ const PaymentCard = ({ payment }: { payment: Payment }) => {
                         <DialogTitle>Edit Payment</DialogTitle>
                         <DialogDescription>Edit details to existing payment methods.</DialogDescription>
                     </DialogHeader>
-                    <EditPaymentForm setDialog={setDialog} data={payment}/>
+                    <EditPaymentForm setDialog={setDialog} data={payment} />
                 </DialogContent>
             </Dialog>
         </div>
