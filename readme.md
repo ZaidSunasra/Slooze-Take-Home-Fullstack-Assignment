@@ -107,7 +107,7 @@ The backend server should now be running.
 ## 6. Access the Application
 
 * **Frontend:** [http://localhost:5173](http://localhost:5173)
-* **Backend:** [http://localhost:3001](http://localhost:3001)
+* **Backend:** [http://localhost:3001](http://localhost:3000)
 
 ---
 
