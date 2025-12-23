@@ -55,7 +55,28 @@ export const getAllOrdersService = async (author : Author) : Promise<GetOrder | 
             country_id : author.country_id
         },
         include: {
-            items: true
+            items: {
+                include: {
+                    item: {
+                        select: {
+                            name: true
+                        }
+                    }
+                }
+            },
+            restaurant: {
+                select: {
+                    name: true
+                }
+            },
+            created_by: {
+                select: {
+                    name: true
+                }
+            }
+        },
+        orderBy: {
+            created_at: "desc"
         }
     });
     return orders;
