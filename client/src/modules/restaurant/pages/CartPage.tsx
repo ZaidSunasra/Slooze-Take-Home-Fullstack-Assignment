@@ -1,12 +1,21 @@
 import { Minus, Plus, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import SideBar from "@/components/Sidebar";
 import { useCart } from "@/context/CartContext";
 import { useAddOrder } from "@/api/order/order.mutation";
+import { useState } from "react";
+import { useUser } from "@/context/UserContext";
+import { usePermissions } from "@/context/PermissionContext";
+import PaymentMethodSelector from "@/modules/payment/components/PaymentMethodSelector";
 
 const CartPage = () => {
 
+    const [dialog, setDialog] = useState<boolean>(false);
+    const [paymentId, setPaymentId] = useState<string | null>(null);
     const { items, totalAmount, updateQuantity, removeItem, clearCart, restaurantId, countryId } = useCart();
+    const {user} = useUser();
+    const {canView} = usePermissions();
     const addOrder = useAddOrder();
 
     const decreaseQty = (itemId: number, currentQty: number) => {
@@ -119,12 +128,33 @@ const CartPage = () => {
                 )}
                 {items.length > 0 && (
                     <div className="mt-6 flex justify-end">
-                        <Button size="lg" className="px-10" onClick={handleAddOrder} >
+                        <Button size="lg" className="px-10" onClick={() => setDialog(true)} >
                             Checkout
                         </Button>
                     </div>
                 )}
             </div>
+            <Dialog open={dialog} onOpenChange={setDialog}>
+                <DialogTrigger asChild></DialogTrigger>
+                <DialogContent className="sm:max-w-106.25  bg-white">
+                    <DialogHeader>
+                        <DialogTitle>{user?.role === "member" ? "Add Order" : "Choose Payment"}</DialogTitle>
+                        <DialogDescription>{user?.role === "member" ? "" : "Choose payment method to place order"}</DialogDescription>
+                    </DialogHeader>
+                    {user?.role && canView(user.role, "place_order") &&
+                        <div >
+                            <PaymentMethodSelector selectedPaymentId={paymentId} onSelectPayment={setPaymentId} />
+                        </div>
+                    }
+                    <DialogFooter>
+                        {(paymentId || user?.role === "member") &&
+                            <Button type="submit" className="bg-green-400 hover:bg-green-500" onClick={handleAddOrder} >
+                                Place Order
+                            </Button>
+                        }
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
         </div>
     );
 };
