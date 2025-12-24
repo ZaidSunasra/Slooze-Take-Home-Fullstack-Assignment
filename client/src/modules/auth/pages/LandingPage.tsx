@@ -36,7 +36,7 @@ const LandingPage = () => {
                                 <SheetDescription>Welcome back! Please log in with your email and password to continue.</SheetDescription>
                             </SheetHeader>
                             <LoginForm />
-                            <div className="max-w-sm rounded-lg border bg-gray-50 p-4 m-4">
+                            <div className="max-w-sm rounded-lg border bg-gray-50 m-2 md:p-4 md:m-4">
                                 <h3 className="mb-3 text-lg font-semibold">🧪 Tester Accounts</h3>
                                 <ul className="space-y-1 text-sm">
                                     {accounts.map((email) => (

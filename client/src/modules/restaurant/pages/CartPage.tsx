@@ -14,8 +14,8 @@ const CartPage = () => {
     const [dialog, setDialog] = useState<boolean>(false);
     const [paymentId, setPaymentId] = useState<string | null>(null);
     const { items, totalAmount, updateQuantity, removeItem, clearCart, restaurantId, countryId } = useCart();
-    const {user} = useUser();
-    const {canView} = usePermissions();
+    const { user } = useUser();
+    const { canView } = usePermissions();
     const addOrder = useAddOrder();
 
     const decreaseQty = (itemId: number, currentQty: number) => {
@@ -62,58 +62,99 @@ const CartPage = () => {
                     </div>
                 ) : (
                     <div className="rounded-lg bg-background shadow">
-                        <div className="grid grid-cols-6 gap-4 border-b px-6 py-3 text-sm font-medium text-muted-foreground">
-                            <span className="col-span-2">Item</span>
+                        <div className="hidden md:grid grid-cols-8 gap-4 border-b px-6 py-3 text-sm font-medium text-muted-foreground">
+                            <span className="col-span-3">Item</span>
                             <span>Price</span>
-                            <span>Quantity</span>
+                            <span className="col-span-2">Quantity</span>
                             <span>Subtotal</span>
                             <span></span>
                         </div>
                         {items.map((item) => (
                             <div
                                 key={item.item_id}
-                                className="grid grid-cols-6 gap-4 px-6 py-4 items-center border-b last:border-none"
+                                className="border-b last:border-none p-4 md:px-6 md:py-4"
                             >
-                                <span className="col-span-2 font-medium capitalize">
-                                    {item.name}
-                                </span>
-                                <span>₹{item.price}</span>
-                                <div className="flex items-center gap-2">
-                                    <Button
-                                        size="icon"
-                                        variant="outline"
-                                        onClick={() => decreaseQty(item.item_id, item.quantity)}
-                                        className="h-8 w-8"
-                                    >
-                                        <Minus />
-                                    </Button>
-                                    <span className="w-6 text-center font-medium">
-                                        {item.quantity}
+                                <div className="flex flex-col gap-3 md:hidden">
+                                    <div className="flex justify-between">
+                                        <span className="font-medium capitalize">{item.name}</span>
+                                        <span className="font-semibold">₹{item.price * item.quantity}</span>
+                                    </div>
+                                    <div className="flex justify-between text-sm text-muted-foreground">
+                                        <span>₹{item.price} each</span>
+                                        <span>Qty: {item.quantity}</span>
+                                    </div>
+                                    <div className="flex items-center justify-between">
+                                        <div className="flex items-center gap-2">
+                                            <Button
+                                                size="icon"
+                                                variant="outline"
+                                                onClick={() => decreaseQty(item.item_id, item.quantity)}
+                                                className="h-8 w-8"
+                                            >
+                                                <Minus />
+                                            </Button>
+                                            <span className="w-6 text-center font-medium">
+                                                {item.quantity}
+                                            </span>
+                                            <Button
+                                                size="icon"
+                                                variant="outline"
+                                                onClick={() =>
+                                                    updateQuantity(item.item_id, item.quantity + 1)
+                                                }
+                                                className="h-8 w-8"
+                                            >
+                                                <Plus />
+                                            </Button>
+                                        </div>
+                                        <Button
+                                            size="icon"
+                                            variant="ghost"
+                                            onClick={() => removeItem(item.item_id)}
+                                        >
+                                            <Trash2 className="h-4 w-4 text-destructive" />
+                                        </Button>
+                                    </div>
+                                </div>
+                                <div className="hidden md:grid grid-cols-8 gap-4 items-center">
+                                    <span className="col-span-3 font-medium capitalize">
+                                        {item.name}
+                                    </span>
+                                    <span>₹{item.price}</span>
+                                    <div className="flex items-center gap-2 col-span-2">
+                                        <Button
+                                            size="icon"
+                                            variant="outline"
+                                            onClick={() => decreaseQty(item.item_id, item.quantity)}
+                                            className="h-8 w-8"
+                                        >
+                                            <Minus />
+                                        </Button>
+                                        <span className="w-6 text-center font-medium">
+                                            {item.quantity}
+                                        </span>
+                                        <Button
+                                            size="icon"
+                                            variant="outline"
+                                            onClick={() =>
+                                                updateQuantity(item.item_id, item.quantity + 1)
+                                            }
+                                            className="h-8 w-8"
+                                        >
+                                            <Plus />
+                                        </Button>
+                                    </div>
+                                    <span className="font-semibold">
+                                        ₹{item.price * item.quantity}
                                     </span>
                                     <Button
                                         size="icon"
-                                        variant="outline"
-                                        onClick={() =>
-                                            updateQuantity(
-                                                item.item_id,
-                                                item.quantity + 1
-                                            )
-                                        }
-                                        className="h-8 w-8"
+                                        variant="ghost"
+                                        onClick={() => removeItem(item.item_id)}
                                     >
-                                        <Plus />
+                                        <Trash2 className="h-4 w-4 text-destructive" />
                                     </Button>
                                 </div>
-                                <span className="font-semibold">
-                                    ₹{item.price * item.quantity}
-                                </span>
-                                <Button
-                                    size="icon"
-                                    variant="ghost"
-                                    onClick={() => removeItem(item.item_id)}
-                                >
-                                    <Trash2 className="h-4 w-4 text-destructive" />
-                                </Button>
                             </div>
                         ))}
                         <div className="flex items-center justify-between px-6 py-4 border-t bg-muted/30">
