@@ -10,5 +10,5 @@ export type ErrorResponse = {
 export const Role = ["admin", "manager", "member"] as const;
 export type role = typeof Role[number];
 
-export const Cart_Status = ["draft", "placed", "cancelled"] as const;
+export const Cart_Status = ["draft", "placed", "cancelled", "shared"] as const;
 export type cart_status = typeof Cart_Status[number];

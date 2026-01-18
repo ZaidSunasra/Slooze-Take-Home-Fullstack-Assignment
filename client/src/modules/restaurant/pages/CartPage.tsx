@@ -3,26 +3,28 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import SideBar from "@/components/Sidebar";
 import { useCart } from "@/context/CartContext";
-import { useAddOrder } from "@/api/order/order.mutation";
+import { useAddOrder, useEditOrder } from "@/api/order/order.mutation";
 import { useState } from "react";
 import { useUser } from "@/context/UserContext";
 import { usePermissions } from "@/context/PermissionContext";
 import PaymentMethodSelector from "@/modules/payment/components/PaymentMethodSelector";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const CartPage = () => {
 
     const [dialog, setDialog] = useState<boolean>(false);
     const [paymentId, setPaymentId] = useState<string | null>(null);
-    const { items, totalAmount, updateQuantity, removeItem, clearCart, restaurantId, countryId } = useCart();
+    const { items, totalAmount, updateQuantity, removeItem, clearCart, restaurantId, countryId, sharedCart, enableSharedCart, disableSharedCart, cartId } = useCart();
     const { user } = useUser();
     const { canView } = usePermissions();
     const addOrder = useAddOrder();
+    const editOrder = useEditOrder()
 
     const decreaseQty = (itemId: number, currentQty: number) => {
         if (currentQty <= 1) {
             removeItem(itemId);
         } else {
-            updateQuantity(itemId, currentQty - 1);
+            updateQuantity(itemId, Number(user?.id), currentQty - 1);
         }
     };
 
@@ -32,10 +34,17 @@ const CartPage = () => {
             country_id: countryId as number,
             total_amount: totalAmount,
             items: items.map(({ name, ...rest }) => rest),
+            shared: String(sharedCart).toLowerCase()
         };
-        addOrder.mutate(payload, {
-            onSuccess: () => clearCart()
-        });
+        if (cartId) {
+            editOrder.mutate({data: payload, id: cartId}, {
+                onSuccess: () => clearCart()
+            })
+        } else {
+            addOrder.mutate(payload, {
+                onSuccess: () => clearCart()
+            });
+        }
     }
 
     return (
@@ -100,7 +109,7 @@ const CartPage = () => {
                                                 size="icon"
                                                 variant="outline"
                                                 onClick={() =>
-                                                    updateQuantity(item.item_id, item.quantity + 1)
+                                                    updateQuantity(item.item_id, Number(user?.id), item.quantity + 1)
                                                 }
                                                 className="h-8 w-8"
                                             >
@@ -137,7 +146,7 @@ const CartPage = () => {
                                             size="icon"
                                             variant="outline"
                                             onClick={() =>
-                                                updateQuantity(item.item_id, item.quantity + 1)
+                                                updateQuantity(item.item_id, Number(user?.id), item.quantity + 1)
                                             }
                                             className="h-8 w-8"
                                         >
@@ -149,6 +158,7 @@ const CartPage = () => {
                                     </span>
                                     <Button
                                         size="icon"
+                                        disabled={item.user_id !== Number(user?.id)}
                                         variant="ghost"
                                         onClick={() => removeItem(item.item_id)}
                                     >
@@ -164,6 +174,27 @@ const CartPage = () => {
                             <span className="text-xl font-bold">
                                 ₹{totalAmount}
                             </span>
+                        </div>
+                        <div className="flex space-y-2 items-center">
+                            <h1 className="p-4 font-semibold">Share cart? </h1>
+                            <Select
+                                value={sharedCart.toString()}
+                                onValueChange={(value) => {
+                                    if (value === "true") {
+                                        enableSharedCart();
+                                    } else {
+                                        disableSharedCart();
+                                    }
+                                }}
+                            >
+                                <SelectTrigger>
+                                    <SelectValue placeholder="Select order as shared" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="true">Yes</SelectItem>
+                                    <SelectItem value="false">No</SelectItem>
+                                </SelectContent>
+                            </Select>
                         </div>
                     </div>
                 )}
@@ -182,13 +213,13 @@ const CartPage = () => {
                         <DialogTitle>{user?.role === "member" ? "Add Order" : "Choose Payment"}</DialogTitle>
                         <DialogDescription>{user?.role === "member" ? "" : "Choose payment method to place order"}</DialogDescription>
                     </DialogHeader>
-                    {user?.role && canView(user.role, "place_order") &&
+                    {user?.role && canView(user.role, "place_order") && sharedCart === false &&
                         <div >
                             <PaymentMethodSelector selectedPaymentId={paymentId} onSelectPayment={setPaymentId} />
                         </div>
                     }
                     <DialogFooter>
-                        {(paymentId || user?.role === "member") &&
+                        {(paymentId || user?.role === "member" || sharedCart === true) &&
                             <Button type="submit" className="bg-green-400 hover:bg-green-500" onClick={handleAddOrder} disabled={addOrder.isPending}>
                                 Place Order
                             </Button>

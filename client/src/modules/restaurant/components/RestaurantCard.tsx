@@ -2,14 +2,22 @@ import type { GetRestaurant, Restaurant, RestaurantItem } from "@/api/restaurant
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { useCart } from "@/context/CartContext"
+import { useUser } from "@/context/UserContext"
 import { Minus, Plus, Store } from "lucide-react"
 
 const RestaurantCard = ({ restaurants }: { restaurants: GetRestaurant }) => {
 
-    const { items, addItem, updateQuantity, removeItem} = useCart();
+    const { items, addItem, updateQuantity, removeItem } = useCart();
+    const { user } = useUser()
 
-    const getQuantity = (itemId: number) => {
-        return items.find((i) => i.item_id === itemId)?.quantity ?? 0;
+    const getQuantity = (itemId: number, userId: number) => {
+        return (
+            items.find(
+                (item) =>
+                    item.item_id === itemId &&
+                    item.user_id === userId
+            )?.quantity ?? 0
+        );
     };
 
     const addToCart = (item: RestaurantItem, restaurant: Restaurant) => {
@@ -18,7 +26,8 @@ const RestaurantCard = ({ restaurants }: { restaurants: GetRestaurant }) => {
                 item_id: item.id,
                 price: item.price,
                 quantity: 1,
-                name: item.name
+                name: item.name,
+                user_id: user?.id as number
             },
             restaurant.country_id,
             restaurant.id,
@@ -26,16 +35,16 @@ const RestaurantCard = ({ restaurants }: { restaurants: GetRestaurant }) => {
     };
 
     const increaseQty = (itemId: number) => {
-        const currentQty = getQuantity(itemId);
-        updateQuantity(itemId, currentQty + 1);
+        const currentQty = getQuantity(itemId, Number(user?.id));
+        updateQuantity(itemId,  Number(user?.id), currentQty + 1);
     };
 
     const decreaseQty = (itemId: number) => {
-        const currentQty = getQuantity(itemId);
+        const currentQty = getQuantity(itemId, Number(user?.id));
         if (currentQty <= 1) {
             removeItem(itemId);
         } else {
-            updateQuantity(itemId, currentQty - 1);
+            updateQuantity(itemId, Number(user?.id), currentQty - 1);
         }
     };
 
@@ -60,7 +69,7 @@ const RestaurantCard = ({ restaurants }: { restaurants: GetRestaurant }) => {
                         <div className="border-t bg-muted/20 px-4 py-4">
                             <div className="space-y-2">
                                 {restaurant.items.map((item) => {
-                                    const quantity = getQuantity(item.id);
+                                    const quantity = getQuantity(item.id, Number(user?.id));
 
                                     return (
                                         <div

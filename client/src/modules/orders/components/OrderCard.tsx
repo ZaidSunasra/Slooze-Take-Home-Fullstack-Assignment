@@ -8,6 +8,7 @@ import { useCancelOrder, usePlaceOrder } from "@/api/order/order.mutation";
 import { useState } from "react";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import PaymentMethodSelector from "@/modules/payment/components/PaymentMethodSelector";
+import { useCart } from "@/context/CartContext";
 
 type OrderCardProps = {
     order: Cart & {
@@ -21,6 +22,7 @@ const OrderCard = ({ order }: OrderCardProps) => {
 
     const { user } = useUser();
     const { canView } = usePermissions();
+    const { addItem, enableSharedCart, saveCartId, clearCart } = useCart()
     const cancelOrder = useCancelOrder();
     const placeOrder = usePlaceOrder();
 
@@ -56,19 +58,53 @@ const OrderCard = ({ order }: OrderCardProps) => {
                         Created by: {order.created_by.name}
                     </p>
                 </div>
+                {order.is_shared && order.status != "shared" &&
+                    <Badge className={`bg-blue-200 text-blue-800 font-semibold text-sm`}>
+                        Shared Cart
+                    </Badge>
+                }
                 <Badge className={`${CART_STATUS_BG[order.status]} font-semibold text-sm`}>
                     Status: {order.status}
                 </Badge>
+                {order.status === "shared" &&
+                    <Button
+                        className="bg-blue-200 text-blue-800 hover:bg-blue-300 hover:text-blue-700"
+                        onClick={() => {
+                            clearCart(),
+                                saveCartId(order.id),
+                                enableSharedCart(),
+                                order.items.forEach((item) => {
+                                    addItem(
+                                        {
+                                            item_id: item.item_id,
+                                            name: item.item.name,
+                                            price: item.price,
+                                            quantity: item.quantity,
+                                            user_id: item.user_id
+                                        },
+                                        order.country_id,
+                                        order.restaurant_id
+                                    );
+                                });
+                        }}>Add Items</Button>
+                }
             </div>
             <div className="space-y-2">
-                {order.items.map((item: any) => (
+                {order.items.map((item: CartItemDb) => (
                     <div
                         key={item.id}
                         className="flex items-center justify-between text-sm"
                     >
-                        <span className="text-muted-foreground capitalize">
-                            {item.item.name} {" "}X{item.quantity}
-                        </span>
+                        <div className="text-muted-foreground capitalize leading-tight">
+                            <div className="font-medium text-foreground">
+                                {item.item.name} x{item.quantity}
+                            </div>
+                            {order.is_shared &&
+                                <div className="text-xs text-muted-foreground">
+                                    ordered by {item.added_by.name}
+                                </div>
+                            }
+                        </div>
                         <span className="font-medium">
                             ₹{item.price * item.quantity}
                         </span>
