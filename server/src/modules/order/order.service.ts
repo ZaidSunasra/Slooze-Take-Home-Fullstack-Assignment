@@ -3,8 +3,6 @@ import type { Author } from "../../utils/constant.js";
 import type { AddOrder, GetOrder } from "./order.type";
 
 export const addOrderService = async ({ total_amount, items, country_id, restaurant_id, shared}: AddOrder, author: Author): Promise<void> => {
-    console.log(shared)
-    console.log(shared === "true")
     await prisma.$transaction(async (tx) => {
         const order = await tx.cart.create({
             data: {
