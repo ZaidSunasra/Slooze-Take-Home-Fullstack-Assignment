@@ -5,13 +5,15 @@ export const cartItems = z.object({
     item_id: z.number(),
     price: z.number(),
     quantity: z.number(),
-    name: z.string()
+    name: z.string(),
+    user_id: z.number()
 });
 
 export const orderItems = z.object({
     item_id: z.number(),
     price: z.number(),
     quantity: z.number(),
+    user_id: z.number()
 })
 
 export const addOrderSchema = z.object({
@@ -19,6 +21,7 @@ export const addOrderSchema = z.object({
     items: z.array(orderItems),
     country_id: z.number(),
     restaurant_id: z.number(),
+    shared: z.string()
 });
 
 export type CartItem = z.infer<typeof cartItems>;
@@ -33,6 +36,7 @@ export type Cart = {
     user_id: number;
     status: cart_status;
     created_at: Date;
+    is_shared: Boolean
 }
 
 export type CartItemDb = {
@@ -41,8 +45,13 @@ export type CartItemDb = {
     quantity: number;
     id: number;
     cart_id: number;
+    user_id: number
 } & {
     item: {
+        name: string
+    }
+} & {
+    added_by: {
         name: string
     }
 }

@@ -7,6 +7,11 @@ export const getOrders = async (): Promise<GetOrderSuccessResponse> => {
     return response.data;
 };
 
+export const editOrder = async ({data, id} :{data: AddOrderPayload, id: number}): Promise<SuccessResponse> => {
+    const response = await axiosInstance.put(`/order/edit/${id}`, data);
+    return response.data;
+};
+
 export const addOrder = async (data: AddOrderPayload): Promise<SuccessResponse> => {
     const response = await axiosInstance.post(`/order/add`, data);
     return response.data;

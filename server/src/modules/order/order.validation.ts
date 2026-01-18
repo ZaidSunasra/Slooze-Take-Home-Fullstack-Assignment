@@ -3,12 +3,14 @@ import z from "zod/v4";
 export const orderItems = z.object({
     item_id: z.number(),
     price: z.number(),
-    quantity: z.number()
+    quantity: z.number(),
+    user_id: z.number()
 });
 
 export const addOrderSchema = z.object({
     total_amount: z.number(),
     items: z.array(orderItems),
     country_id: z.number(),
-    restaurant_id: z.number()
+    restaurant_id: z.number(),
+    shared: z.string()
 })

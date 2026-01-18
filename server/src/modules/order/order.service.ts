@@ -2,7 +2,7 @@ import { prisma } from "../../libs/prisma.js";
 import type { Author } from "../../utils/constant.js";
 import type { AddOrder, GetOrder } from "./order.type";
 
-export const addOrderService = async ({ total_amount, items, country_id, restaurant_id}: AddOrder, author: Author): Promise<void> => {
+export const addOrderService = async ({ total_amount, items, country_id, restaurant_id, shared}: AddOrder, author: Author): Promise<void> => {
     await prisma.$transaction(async (tx) => {
         const order = await tx.cart.create({
             data: {
@@ -10,7 +10,8 @@ export const addOrderService = async ({ total_amount, items, country_id, restaur
                 country_id,
                 user_id: author.id,
                 restaurant_id,
-                status: author.role === "member" ? "draft" : "placed",
+                status: shared === "true" ? "shared" : author.role === "member" ? "draft" : "placed",
+                is_shared: shared === "true" ? true : false
             },
             select: {
                 id: true
@@ -22,6 +23,26 @@ export const addOrderService = async ({ total_amount, items, country_id, restaur
                 item_id: item.item_id,
                 price: item.price,
                 quantity: item.quantity,
+                user_id: item.user_id
+            }))
+        })
+    })
+}
+
+export const editOrderService = async ({ total_amount, items, country_id, restaurant_id, shared}: AddOrder, author: Author, cart_id: string): Promise<void> => {
+    await prisma.$transaction(async (tx) => {
+        await tx.cartItem.deleteMany({
+            where: {
+                cart_id: Number(cart_id)
+            }
+        })
+        await tx.cartItem.createMany({
+            data: items.map((item) => ({
+                cart_id: Number(cart_id),
+                item_id: item.item_id,
+                price: item.price,
+                quantity: item.quantity,
+                user_id: item.user_id
             }))
         })
     })
@@ -58,6 +79,11 @@ export const getAllOrdersService = async (author : Author) : Promise<GetOrder | 
             items: {
                 include: {
                     item: {
+                        select: {
+                            name: true
+                        }
+                    },
+                    added_by: {
                         select: {
                             name: true
                         }

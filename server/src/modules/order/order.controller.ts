@@ -1,12 +1,12 @@
 import type { Request, Response } from "express";
 import { addOrderSchema } from "./order.validation.js";
-import { addOrderService, cancelOrderService, getAllOrdersService, placeOrderService } from "./order.service.js";
+import { addOrderService, cancelOrderService, editOrderService, getAllOrdersService, placeOrderService } from "./order.service.js";
 import type { ErrorResponse, SuccessResponse } from "../../utils/constant.js";
 import type { GetOrderSuccessResponse } from "./order.type.js";
 
 export const addOrderController = async (req: Request, res: Response<SuccessResponse | ErrorResponse>): Promise<any> => {
 
-    const { total_amount, items, country_id, restaurant_id} = req.body;
+    const { total_amount, items, country_id, restaurant_id, shared} = req.body;
     const author = res.locals.user
 
     const validation = addOrderSchema.safeParse(req.body);
@@ -18,9 +18,37 @@ export const addOrderController = async (req: Request, res: Response<SuccessResp
     }
 
     try {
-        await addOrderService({ total_amount, items, country_id, restaurant_id}, author);
+        await addOrderService({ total_amount, items, country_id, restaurant_id, shared}, author);
         return res.status(200).json({
             message: "Order added successfully",
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message: "Internal server error",
+            error: error
+        });
+    }
+}
+
+export const editOrderController = async (req: Request, res: Response<SuccessResponse | ErrorResponse>): Promise<any> => {
+
+    const { total_amount, items, country_id, restaurant_id, shared} = req.body;
+    const cart_id = req.params.id as string;
+    const author = res.locals.user
+
+    const validation = addOrderSchema.safeParse(req.body);
+    if (!validation.success) {
+        return res.status(400).json({
+            message: "Input validation error",
+            error: validation.error.issues
+        })
+    }
+
+    try {
+        await editOrderService({ total_amount, items, country_id, restaurant_id, shared}, author, cart_id);
+        return res.status(200).json({
+            message: "Item added successfully",
         })
     } catch (error) {
         console.log(error);

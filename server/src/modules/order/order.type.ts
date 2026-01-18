@@ -6,7 +6,7 @@ import type { SuccessResponse } from "../../utils/constant";
 export type AddOrder = z.infer<typeof addOrderSchema>
 
 export type GetOrder = (Cart & {
-    items: (CartItem & { item: { name: string } })[],
+    items: (CartItem & { item: { name: string } } & {added_by: {name: string}})[],
     restaurant: { name: string },
     created_by: {name: string}
 })[]
