@@ -16,6 +16,7 @@ type CartContextType = {
     updateQuantity: (itemId: number, userId: number, quantity: number) => void;
     removeItem: (itemId: number) => void;
     clearCart: () => void;
+    initCart : (items: CartItem[],countryId: number,restaurantId: number,isShared: boolean) => void
 };
 
 const CartContext = createContext<CartContextType | null>(null);
@@ -90,7 +91,6 @@ export const CartProvider = ({ children }: { children: React.ReactNode; }) => {
         );
     };
 
-
     const removeItem = (itemId: number) => {
         setItems((prev) =>
             prev.filter((item) => item.item_id !== itemId)
@@ -103,6 +103,13 @@ export const CartProvider = ({ children }: { children: React.ReactNode; }) => {
         setRestaurantId(null);
         setSharedCart(false);
         setCartId(null)
+    };
+
+    const initCart = ( items: CartItem[], countryId: number,  restaurantId: number,  isShared: boolean ) => {
+        setItems(items);
+        setCountryId(countryId);
+        setRestaurantId(restaurantId);
+        setSharedCart(isShared);
     };
 
     return (
@@ -121,6 +128,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode; }) => {
                 updateQuantity,
                 removeItem,
                 clearCart,
+                initCart
             }}
         >
             {children}

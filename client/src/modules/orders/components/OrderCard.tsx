@@ -22,7 +22,7 @@ const OrderCard = ({ order }: OrderCardProps) => {
 
     const { user } = useUser();
     const { canView } = usePermissions();
-    const { addItem, enableSharedCart, saveCartId, clearCart } = useCart()
+    const { saveCartId, initCart } = useCart()
     const cancelOrder = useCancelOrder();
     const placeOrder = usePlaceOrder();
 
@@ -70,23 +70,22 @@ const OrderCard = ({ order }: OrderCardProps) => {
                     <Button
                         className="bg-blue-200 text-blue-800 hover:bg-blue-300 hover:text-blue-700"
                         onClick={() => {
-                            clearCart(),
-                                saveCartId(order.id),
-                                enableSharedCart(),
-                                order.items.forEach((item) => {
-                                    addItem(
-                                        {
-                                            item_id: item.item_id,
-                                            name: item.item.name,
-                                            price: item.price,
-                                            quantity: item.quantity,
-                                            user_id: item.user_id
-                                        },
-                                        order.country_id,
-                                        order.restaurant_id
-                                    );
-                                });
-                        }}>Add Items</Button>
+                            saveCartId(order.id);
+                            initCart(
+                                order.items.map(item => ({
+                                    item_id: item.item_id,
+                                    name: item.item.name,
+                                    price: item.price,
+                                    quantity: item.quantity,
+                                    user_id: item.user_id
+                                })),
+                                order.country_id,
+                                order.restaurant_id,
+                                true
+                            );
+                        }}>
+                        Add Items
+                    </Button>
                 }
             </div>
             <div className="space-y-2">

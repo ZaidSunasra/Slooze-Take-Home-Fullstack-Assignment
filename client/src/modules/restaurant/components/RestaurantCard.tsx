@@ -7,7 +7,7 @@ import { Minus, Plus, Store } from "lucide-react"
 
 const RestaurantCard = ({ restaurants }: { restaurants: GetRestaurant }) => {
 
-    const { items, addItem, updateQuantity, removeItem } = useCart();
+    const { items, addItem, updateQuantity, removeItem, restaurantId} = useCart();
     const { user } = useUser()
 
     const getQuantity = (itemId: number, userId: number) => {
@@ -109,6 +109,7 @@ const RestaurantCard = ({ restaurants }: { restaurants: GetRestaurant }) => {
                                             ) : (
                                                 <Button
                                                     onClick={() => addToCart(item, restaurant)}
+                                                    disabled={restaurantId != restaurant.id && items.length > 0}
                                                     size="sm"
                                                     className="px-4"
                                                 >
