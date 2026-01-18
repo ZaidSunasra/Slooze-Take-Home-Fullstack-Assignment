@@ -230,6 +230,7 @@ export type UserWhereInput = {
   country_id?: Prisma.IntNullableFilter<"User"> | number | null
   country?: Prisma.XOR<Prisma.CountryNullableScalarRelationFilter, Prisma.CountryWhereInput> | null
   carts?: Prisma.CartListRelationFilter
+  cartItems?: Prisma.CartItemListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -241,6 +242,7 @@ export type UserOrderByWithRelationInput = {
   country_id?: Prisma.SortOrderInput | Prisma.SortOrder
   country?: Prisma.CountryOrderByWithRelationInput
   carts?: Prisma.CartOrderByRelationAggregateInput
+  cartItems?: Prisma.CartItemOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -255,6 +257,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   country_id?: Prisma.IntNullableFilter<"User"> | number | null
   country?: Prisma.XOR<Prisma.CountryNullableScalarRelationFilter, Prisma.CountryWhereInput> | null
   carts?: Prisma.CartListRelationFilter
+  cartItems?: Prisma.CartItemListRelationFilter
 }, "id">
 
 export type UserOrderByWithAggregationInput = {
@@ -290,6 +293,7 @@ export type UserCreateInput = {
   role: $Enums.Role
   country?: Prisma.CountryCreateNestedOneWithoutUsersInput
   carts?: Prisma.CartCreateNestedManyWithoutCreated_byInput
+  cartItems?: Prisma.CartItemCreateNestedManyWithoutAdded_byInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -300,6 +304,7 @@ export type UserUncheckedCreateInput = {
   role: $Enums.Role
   country_id?: number | null
   carts?: Prisma.CartUncheckedCreateNestedManyWithoutCreated_byInput
+  cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutAdded_byInput
 }
 
 export type UserUpdateInput = {
@@ -309,6 +314,7 @@ export type UserUpdateInput = {
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   country?: Prisma.CountryUpdateOneWithoutUsersNestedInput
   carts?: Prisma.CartUpdateManyWithoutCreated_byNestedInput
+  cartItems?: Prisma.CartItemUpdateManyWithoutAdded_byNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -319,6 +325,7 @@ export type UserUncheckedUpdateInput = {
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   country_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   carts?: Prisma.CartUncheckedUpdateManyWithoutCreated_byNestedInput
+  cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutAdded_byNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -466,12 +473,27 @@ export type UserUpdateOneRequiredWithoutCartsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCartsInput, Prisma.UserUpdateWithoutCartsInput>, Prisma.UserUncheckedUpdateWithoutCartsInput>
 }
 
+export type UserCreateNestedOneWithoutCartItemsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCartItemsInput, Prisma.UserUncheckedCreateWithoutCartItemsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCartItemsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutCartItemsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCartItemsInput, Prisma.UserUncheckedCreateWithoutCartItemsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCartItemsInput
+  upsert?: Prisma.UserUpsertWithoutCartItemsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCartItemsInput, Prisma.UserUpdateWithoutCartItemsInput>, Prisma.UserUncheckedUpdateWithoutCartItemsInput>
+}
+
 export type UserCreateWithoutCountryInput = {
   name: string
   email: string
   password: string
   role: $Enums.Role
   carts?: Prisma.CartCreateNestedManyWithoutCreated_byInput
+  cartItems?: Prisma.CartItemCreateNestedManyWithoutAdded_byInput
 }
 
 export type UserUncheckedCreateWithoutCountryInput = {
@@ -481,6 +503,7 @@ export type UserUncheckedCreateWithoutCountryInput = {
   password: string
   role: $Enums.Role
   carts?: Prisma.CartUncheckedCreateNestedManyWithoutCreated_byInput
+  cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutAdded_byInput
 }
 
 export type UserCreateOrConnectWithoutCountryInput = {
@@ -527,6 +550,7 @@ export type UserCreateWithoutCartsInput = {
   password: string
   role: $Enums.Role
   country?: Prisma.CountryCreateNestedOneWithoutUsersInput
+  cartItems?: Prisma.CartItemCreateNestedManyWithoutAdded_byInput
 }
 
 export type UserUncheckedCreateWithoutCartsInput = {
@@ -536,6 +560,7 @@ export type UserUncheckedCreateWithoutCartsInput = {
   password: string
   role: $Enums.Role
   country_id?: number | null
+  cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutAdded_byInput
 }
 
 export type UserCreateOrConnectWithoutCartsInput = {
@@ -560,6 +585,7 @@ export type UserUpdateWithoutCartsInput = {
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   country?: Prisma.CountryUpdateOneWithoutUsersNestedInput
+  cartItems?: Prisma.CartItemUpdateManyWithoutAdded_byNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCartsInput = {
@@ -569,6 +595,61 @@ export type UserUncheckedUpdateWithoutCartsInput = {
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   country_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutAdded_byNestedInput
+}
+
+export type UserCreateWithoutCartItemsInput = {
+  name: string
+  email: string
+  password: string
+  role: $Enums.Role
+  country?: Prisma.CountryCreateNestedOneWithoutUsersInput
+  carts?: Prisma.CartCreateNestedManyWithoutCreated_byInput
+}
+
+export type UserUncheckedCreateWithoutCartItemsInput = {
+  id?: number
+  name: string
+  email: string
+  password: string
+  role: $Enums.Role
+  country_id?: number | null
+  carts?: Prisma.CartUncheckedCreateNestedManyWithoutCreated_byInput
+}
+
+export type UserCreateOrConnectWithoutCartItemsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutCartItemsInput, Prisma.UserUncheckedCreateWithoutCartItemsInput>
+}
+
+export type UserUpsertWithoutCartItemsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutCartItemsInput, Prisma.UserUncheckedUpdateWithoutCartItemsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutCartItemsInput, Prisma.UserUncheckedCreateWithoutCartItemsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutCartItemsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutCartItemsInput, Prisma.UserUncheckedUpdateWithoutCartItemsInput>
+}
+
+export type UserUpdateWithoutCartItemsInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  country?: Prisma.CountryUpdateOneWithoutUsersNestedInput
+  carts?: Prisma.CartUpdateManyWithoutCreated_byNestedInput
+}
+
+export type UserUncheckedUpdateWithoutCartItemsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  country_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  carts?: Prisma.CartUncheckedUpdateManyWithoutCreated_byNestedInput
 }
 
 export type UserCreateManyCountryInput = {
@@ -585,6 +666,7 @@ export type UserUpdateWithoutCountryInput = {
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   carts?: Prisma.CartUpdateManyWithoutCreated_byNestedInput
+  cartItems?: Prisma.CartItemUpdateManyWithoutAdded_byNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCountryInput = {
@@ -594,6 +676,7 @@ export type UserUncheckedUpdateWithoutCountryInput = {
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   carts?: Prisma.CartUncheckedUpdateManyWithoutCreated_byNestedInput
+  cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutAdded_byNestedInput
 }
 
 export type UserUncheckedUpdateManyWithoutCountryInput = {
@@ -611,10 +694,12 @@ export type UserUncheckedUpdateManyWithoutCountryInput = {
 
 export type UserCountOutputType = {
   carts: number
+  cartItems: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   carts?: boolean | UserCountOutputTypeCountCartsArgs
+  cartItems?: boolean | UserCountOutputTypeCountCartItemsArgs
 }
 
 /**
@@ -634,6 +719,13 @@ export type UserCountOutputTypeCountCartsArgs<ExtArgs extends runtime.Types.Exte
   where?: Prisma.CartWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountCartItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CartItemWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -644,6 +736,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   country_id?: boolean
   country?: boolean | Prisma.User$countryArgs<ExtArgs>
   carts?: boolean | Prisma.User$cartsArgs<ExtArgs>
+  cartItems?: boolean | Prisma.User$cartItemsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -680,6 +773,7 @@ export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = run
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   country?: boolean | Prisma.User$countryArgs<ExtArgs>
   carts?: boolean | Prisma.User$cartsArgs<ExtArgs>
+  cartItems?: boolean | Prisma.User$cartItemsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -694,6 +788,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   objects: {
     country: Prisma.$CountryPayload<ExtArgs> | null
     carts: Prisma.$CartPayload<ExtArgs>[]
+    cartItems: Prisma.$CartItemPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1098,6 +1193,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   readonly [Symbol.toStringTag]: "PrismaPromise"
   country<T extends Prisma.User$countryArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$countryArgs<ExtArgs>>): Prisma.Prisma__CountryClient<runtime.Types.Result.GetResult<Prisma.$CountryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   carts<T extends Prisma.User$cartsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$cartsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CartPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  cartItems<T extends Prisma.User$cartItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$cartItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CartItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1569,6 +1665,30 @@ export type User$cartsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
   take?: number
   skip?: number
   distinct?: Prisma.CartScalarFieldEnum | Prisma.CartScalarFieldEnum[]
+}
+
+/**
+ * User.cartItems
+ */
+export type User$cartItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CartItem
+   */
+  select?: Prisma.CartItemSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the CartItem
+   */
+  omit?: Prisma.CartItemOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CartItemInclude<ExtArgs> | null
+  where?: Prisma.CartItemWhereInput
+  orderBy?: Prisma.CartItemOrderByWithRelationInput | Prisma.CartItemOrderByWithRelationInput[]
+  cursor?: Prisma.CartItemWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CartItemScalarFieldEnum | Prisma.CartItemScalarFieldEnum[]
 }
 
 /**

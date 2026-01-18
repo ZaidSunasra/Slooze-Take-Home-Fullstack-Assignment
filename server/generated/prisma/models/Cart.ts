@@ -50,6 +50,7 @@ export type CartMinAggregateOutputType = {
   created_at: Date | null
   country_id: number | null
   restaurant_id: number | null
+  is_shared: boolean | null
 }
 
 export type CartMaxAggregateOutputType = {
@@ -60,6 +61,7 @@ export type CartMaxAggregateOutputType = {
   created_at: Date | null
   country_id: number | null
   restaurant_id: number | null
+  is_shared: boolean | null
 }
 
 export type CartCountAggregateOutputType = {
@@ -70,6 +72,7 @@ export type CartCountAggregateOutputType = {
   created_at: number
   country_id: number
   restaurant_id: number
+  is_shared: number
   _all: number
 }
 
@@ -98,6 +101,7 @@ export type CartMinAggregateInputType = {
   created_at?: true
   country_id?: true
   restaurant_id?: true
+  is_shared?: true
 }
 
 export type CartMaxAggregateInputType = {
@@ -108,6 +112,7 @@ export type CartMaxAggregateInputType = {
   created_at?: true
   country_id?: true
   restaurant_id?: true
+  is_shared?: true
 }
 
 export type CartCountAggregateInputType = {
@@ -118,6 +123,7 @@ export type CartCountAggregateInputType = {
   created_at?: true
   country_id?: true
   restaurant_id?: true
+  is_shared?: true
   _all?: true
 }
 
@@ -215,6 +221,7 @@ export type CartGroupByOutputType = {
   created_at: Date
   country_id: number
   restaurant_id: number
+  is_shared: boolean
   _count: CartCountAggregateOutputType | null
   _avg: CartAvgAggregateOutputType | null
   _sum: CartSumAggregateOutputType | null
@@ -248,6 +255,7 @@ export type CartWhereInput = {
   created_at?: Prisma.DateTimeFilter<"Cart"> | Date | string
   country_id?: Prisma.IntFilter<"Cart"> | number
   restaurant_id?: Prisma.IntFilter<"Cart"> | number
+  is_shared?: Prisma.BoolFilter<"Cart"> | boolean
   created_by?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   country?: Prisma.XOR<Prisma.CountryScalarRelationFilter, Prisma.CountryWhereInput>
   restaurant?: Prisma.XOR<Prisma.RestaurantScalarRelationFilter, Prisma.RestaurantWhereInput>
@@ -262,6 +270,7 @@ export type CartOrderByWithRelationInput = {
   created_at?: Prisma.SortOrder
   country_id?: Prisma.SortOrder
   restaurant_id?: Prisma.SortOrder
+  is_shared?: Prisma.SortOrder
   created_by?: Prisma.UserOrderByWithRelationInput
   country?: Prisma.CountryOrderByWithRelationInput
   restaurant?: Prisma.RestaurantOrderByWithRelationInput
@@ -279,6 +288,7 @@ export type CartWhereUniqueInput = Prisma.AtLeast<{
   created_at?: Prisma.DateTimeFilter<"Cart"> | Date | string
   country_id?: Prisma.IntFilter<"Cart"> | number
   restaurant_id?: Prisma.IntFilter<"Cart"> | number
+  is_shared?: Prisma.BoolFilter<"Cart"> | boolean
   created_by?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   country?: Prisma.XOR<Prisma.CountryScalarRelationFilter, Prisma.CountryWhereInput>
   restaurant?: Prisma.XOR<Prisma.RestaurantScalarRelationFilter, Prisma.RestaurantWhereInput>
@@ -293,6 +303,7 @@ export type CartOrderByWithAggregationInput = {
   created_at?: Prisma.SortOrder
   country_id?: Prisma.SortOrder
   restaurant_id?: Prisma.SortOrder
+  is_shared?: Prisma.SortOrder
   _count?: Prisma.CartCountOrderByAggregateInput
   _avg?: Prisma.CartAvgOrderByAggregateInput
   _max?: Prisma.CartMaxOrderByAggregateInput
@@ -311,12 +322,14 @@ export type CartScalarWhereWithAggregatesInput = {
   created_at?: Prisma.DateTimeWithAggregatesFilter<"Cart"> | Date | string
   country_id?: Prisma.IntWithAggregatesFilter<"Cart"> | number
   restaurant_id?: Prisma.IntWithAggregatesFilter<"Cart"> | number
+  is_shared?: Prisma.BoolWithAggregatesFilter<"Cart"> | boolean
 }
 
 export type CartCreateInput = {
   status: $Enums.Cart_Status
   total_amount: number
   created_at?: Date | string
+  is_shared: boolean
   created_by: Prisma.UserCreateNestedOneWithoutCartsInput
   country: Prisma.CountryCreateNestedOneWithoutCartsInput
   restaurant: Prisma.RestaurantCreateNestedOneWithoutCartsInput
@@ -331,6 +344,7 @@ export type CartUncheckedCreateInput = {
   created_at?: Date | string
   country_id: number
   restaurant_id: number
+  is_shared: boolean
   items?: Prisma.CartItemUncheckedCreateNestedManyWithoutCartInput
 }
 
@@ -338,6 +352,7 @@ export type CartUpdateInput = {
   status?: Prisma.EnumCart_StatusFieldUpdateOperationsInput | $Enums.Cart_Status
   total_amount?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  is_shared?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_by?: Prisma.UserUpdateOneRequiredWithoutCartsNestedInput
   country?: Prisma.CountryUpdateOneRequiredWithoutCartsNestedInput
   restaurant?: Prisma.RestaurantUpdateOneRequiredWithoutCartsNestedInput
@@ -352,6 +367,7 @@ export type CartUncheckedUpdateInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   country_id?: Prisma.IntFieldUpdateOperationsInput | number
   restaurant_id?: Prisma.IntFieldUpdateOperationsInput | number
+  is_shared?: Prisma.BoolFieldUpdateOperationsInput | boolean
   items?: Prisma.CartItemUncheckedUpdateManyWithoutCartNestedInput
 }
 
@@ -363,12 +379,14 @@ export type CartCreateManyInput = {
   created_at?: Date | string
   country_id: number
   restaurant_id: number
+  is_shared: boolean
 }
 
 export type CartUpdateManyMutationInput = {
   status?: Prisma.EnumCart_StatusFieldUpdateOperationsInput | $Enums.Cart_Status
   total_amount?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  is_shared?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type CartUncheckedUpdateManyInput = {
@@ -379,6 +397,7 @@ export type CartUncheckedUpdateManyInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   country_id?: Prisma.IntFieldUpdateOperationsInput | number
   restaurant_id?: Prisma.IntFieldUpdateOperationsInput | number
+  is_shared?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type CartListRelationFilter = {
@@ -399,6 +418,7 @@ export type CartCountOrderByAggregateInput = {
   created_at?: Prisma.SortOrder
   country_id?: Prisma.SortOrder
   restaurant_id?: Prisma.SortOrder
+  is_shared?: Prisma.SortOrder
 }
 
 export type CartAvgOrderByAggregateInput = {
@@ -417,6 +437,7 @@ export type CartMaxOrderByAggregateInput = {
   created_at?: Prisma.SortOrder
   country_id?: Prisma.SortOrder
   restaurant_id?: Prisma.SortOrder
+  is_shared?: Prisma.SortOrder
 }
 
 export type CartMinOrderByAggregateInput = {
@@ -427,6 +448,7 @@ export type CartMinOrderByAggregateInput = {
   created_at?: Prisma.SortOrder
   country_id?: Prisma.SortOrder
   restaurant_id?: Prisma.SortOrder
+  is_shared?: Prisma.SortOrder
 }
 
 export type CartSumOrderByAggregateInput = {
@@ -576,6 +598,10 @@ export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
 }
 
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
+}
+
 export type CartCreateNestedOneWithoutItemsInput = {
   create?: Prisma.XOR<Prisma.CartCreateWithoutItemsInput, Prisma.CartUncheckedCreateWithoutItemsInput>
   connectOrCreate?: Prisma.CartCreateOrConnectWithoutItemsInput
@@ -594,6 +620,7 @@ export type CartCreateWithoutCountryInput = {
   status: $Enums.Cart_Status
   total_amount: number
   created_at?: Date | string
+  is_shared: boolean
   created_by: Prisma.UserCreateNestedOneWithoutCartsInput
   restaurant: Prisma.RestaurantCreateNestedOneWithoutCartsInput
   items?: Prisma.CartItemCreateNestedManyWithoutCartInput
@@ -606,6 +633,7 @@ export type CartUncheckedCreateWithoutCountryInput = {
   total_amount: number
   created_at?: Date | string
   restaurant_id: number
+  is_shared: boolean
   items?: Prisma.CartItemUncheckedCreateNestedManyWithoutCartInput
 }
 
@@ -646,12 +674,14 @@ export type CartScalarWhereInput = {
   created_at?: Prisma.DateTimeFilter<"Cart"> | Date | string
   country_id?: Prisma.IntFilter<"Cart"> | number
   restaurant_id?: Prisma.IntFilter<"Cart"> | number
+  is_shared?: Prisma.BoolFilter<"Cart"> | boolean
 }
 
 export type CartCreateWithoutCreated_byInput = {
   status: $Enums.Cart_Status
   total_amount: number
   created_at?: Date | string
+  is_shared: boolean
   country: Prisma.CountryCreateNestedOneWithoutCartsInput
   restaurant: Prisma.RestaurantCreateNestedOneWithoutCartsInput
   items?: Prisma.CartItemCreateNestedManyWithoutCartInput
@@ -664,6 +694,7 @@ export type CartUncheckedCreateWithoutCreated_byInput = {
   created_at?: Date | string
   country_id: number
   restaurant_id: number
+  is_shared: boolean
   items?: Prisma.CartItemUncheckedCreateNestedManyWithoutCartInput
 }
 
@@ -697,6 +728,7 @@ export type CartCreateWithoutRestaurantInput = {
   status: $Enums.Cart_Status
   total_amount: number
   created_at?: Date | string
+  is_shared: boolean
   created_by: Prisma.UserCreateNestedOneWithoutCartsInput
   country: Prisma.CountryCreateNestedOneWithoutCartsInput
   items?: Prisma.CartItemCreateNestedManyWithoutCartInput
@@ -709,6 +741,7 @@ export type CartUncheckedCreateWithoutRestaurantInput = {
   total_amount: number
   created_at?: Date | string
   country_id: number
+  is_shared: boolean
   items?: Prisma.CartItemUncheckedCreateNestedManyWithoutCartInput
 }
 
@@ -742,6 +775,7 @@ export type CartCreateWithoutItemsInput = {
   status: $Enums.Cart_Status
   total_amount: number
   created_at?: Date | string
+  is_shared: boolean
   created_by: Prisma.UserCreateNestedOneWithoutCartsInput
   country: Prisma.CountryCreateNestedOneWithoutCartsInput
   restaurant: Prisma.RestaurantCreateNestedOneWithoutCartsInput
@@ -755,6 +789,7 @@ export type CartUncheckedCreateWithoutItemsInput = {
   created_at?: Date | string
   country_id: number
   restaurant_id: number
+  is_shared: boolean
 }
 
 export type CartCreateOrConnectWithoutItemsInput = {
@@ -777,6 +812,7 @@ export type CartUpdateWithoutItemsInput = {
   status?: Prisma.EnumCart_StatusFieldUpdateOperationsInput | $Enums.Cart_Status
   total_amount?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  is_shared?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_by?: Prisma.UserUpdateOneRequiredWithoutCartsNestedInput
   country?: Prisma.CountryUpdateOneRequiredWithoutCartsNestedInput
   restaurant?: Prisma.RestaurantUpdateOneRequiredWithoutCartsNestedInput
@@ -790,6 +826,7 @@ export type CartUncheckedUpdateWithoutItemsInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   country_id?: Prisma.IntFieldUpdateOperationsInput | number
   restaurant_id?: Prisma.IntFieldUpdateOperationsInput | number
+  is_shared?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type CartCreateManyCountryInput = {
@@ -799,12 +836,14 @@ export type CartCreateManyCountryInput = {
   total_amount: number
   created_at?: Date | string
   restaurant_id: number
+  is_shared: boolean
 }
 
 export type CartUpdateWithoutCountryInput = {
   status?: Prisma.EnumCart_StatusFieldUpdateOperationsInput | $Enums.Cart_Status
   total_amount?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  is_shared?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_by?: Prisma.UserUpdateOneRequiredWithoutCartsNestedInput
   restaurant?: Prisma.RestaurantUpdateOneRequiredWithoutCartsNestedInput
   items?: Prisma.CartItemUpdateManyWithoutCartNestedInput
@@ -817,6 +856,7 @@ export type CartUncheckedUpdateWithoutCountryInput = {
   total_amount?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   restaurant_id?: Prisma.IntFieldUpdateOperationsInput | number
+  is_shared?: Prisma.BoolFieldUpdateOperationsInput | boolean
   items?: Prisma.CartItemUncheckedUpdateManyWithoutCartNestedInput
 }
 
@@ -827,6 +867,7 @@ export type CartUncheckedUpdateManyWithoutCountryInput = {
   total_amount?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   restaurant_id?: Prisma.IntFieldUpdateOperationsInput | number
+  is_shared?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type CartCreateManyCreated_byInput = {
@@ -836,12 +877,14 @@ export type CartCreateManyCreated_byInput = {
   created_at?: Date | string
   country_id: number
   restaurant_id: number
+  is_shared: boolean
 }
 
 export type CartUpdateWithoutCreated_byInput = {
   status?: Prisma.EnumCart_StatusFieldUpdateOperationsInput | $Enums.Cart_Status
   total_amount?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  is_shared?: Prisma.BoolFieldUpdateOperationsInput | boolean
   country?: Prisma.CountryUpdateOneRequiredWithoutCartsNestedInput
   restaurant?: Prisma.RestaurantUpdateOneRequiredWithoutCartsNestedInput
   items?: Prisma.CartItemUpdateManyWithoutCartNestedInput
@@ -854,6 +897,7 @@ export type CartUncheckedUpdateWithoutCreated_byInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   country_id?: Prisma.IntFieldUpdateOperationsInput | number
   restaurant_id?: Prisma.IntFieldUpdateOperationsInput | number
+  is_shared?: Prisma.BoolFieldUpdateOperationsInput | boolean
   items?: Prisma.CartItemUncheckedUpdateManyWithoutCartNestedInput
 }
 
@@ -864,6 +908,7 @@ export type CartUncheckedUpdateManyWithoutCreated_byInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   country_id?: Prisma.IntFieldUpdateOperationsInput | number
   restaurant_id?: Prisma.IntFieldUpdateOperationsInput | number
+  is_shared?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type CartCreateManyRestaurantInput = {
@@ -873,12 +918,14 @@ export type CartCreateManyRestaurantInput = {
   total_amount: number
   created_at?: Date | string
   country_id: number
+  is_shared: boolean
 }
 
 export type CartUpdateWithoutRestaurantInput = {
   status?: Prisma.EnumCart_StatusFieldUpdateOperationsInput | $Enums.Cart_Status
   total_amount?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  is_shared?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_by?: Prisma.UserUpdateOneRequiredWithoutCartsNestedInput
   country?: Prisma.CountryUpdateOneRequiredWithoutCartsNestedInput
   items?: Prisma.CartItemUpdateManyWithoutCartNestedInput
@@ -891,6 +938,7 @@ export type CartUncheckedUpdateWithoutRestaurantInput = {
   total_amount?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   country_id?: Prisma.IntFieldUpdateOperationsInput | number
+  is_shared?: Prisma.BoolFieldUpdateOperationsInput | boolean
   items?: Prisma.CartItemUncheckedUpdateManyWithoutCartNestedInput
 }
 
@@ -901,6 +949,7 @@ export type CartUncheckedUpdateManyWithoutRestaurantInput = {
   total_amount?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   country_id?: Prisma.IntFieldUpdateOperationsInput | number
+  is_shared?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 
@@ -942,6 +991,7 @@ export type CartSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   created_at?: boolean
   country_id?: boolean
   restaurant_id?: boolean
+  is_shared?: boolean
   created_by?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   country?: boolean | Prisma.CountryDefaultArgs<ExtArgs>
   restaurant?: boolean | Prisma.RestaurantDefaultArgs<ExtArgs>
@@ -957,6 +1007,7 @@ export type CartSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   created_at?: boolean
   country_id?: boolean
   restaurant_id?: boolean
+  is_shared?: boolean
   created_by?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   country?: boolean | Prisma.CountryDefaultArgs<ExtArgs>
   restaurant?: boolean | Prisma.RestaurantDefaultArgs<ExtArgs>
@@ -970,6 +1021,7 @@ export type CartSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   created_at?: boolean
   country_id?: boolean
   restaurant_id?: boolean
+  is_shared?: boolean
   created_by?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   country?: boolean | Prisma.CountryDefaultArgs<ExtArgs>
   restaurant?: boolean | Prisma.RestaurantDefaultArgs<ExtArgs>
@@ -983,9 +1035,10 @@ export type CartSelectScalar = {
   created_at?: boolean
   country_id?: boolean
   restaurant_id?: boolean
+  is_shared?: boolean
 }
 
-export type CartOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "user_id" | "status" | "total_amount" | "created_at" | "country_id" | "restaurant_id", ExtArgs["result"]["cart"]>
+export type CartOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "user_id" | "status" | "total_amount" | "created_at" | "country_id" | "restaurant_id" | "is_shared", ExtArgs["result"]["cart"]>
 export type CartInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   created_by?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   country?: boolean | Prisma.CountryDefaultArgs<ExtArgs>
@@ -1020,6 +1073,7 @@ export type $CartPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     created_at: Date
     country_id: number
     restaurant_id: number
+    is_shared: boolean
   }, ExtArgs["result"]["cart"]>
   composites: {}
 }
@@ -1454,6 +1508,7 @@ export interface CartFieldRefs {
   readonly created_at: Prisma.FieldRef<"Cart", 'DateTime'>
   readonly country_id: Prisma.FieldRef<"Cart", 'Int'>
   readonly restaurant_id: Prisma.FieldRef<"Cart", 'Int'>
+  readonly is_shared: Prisma.FieldRef<"Cart", 'Boolean'>
 }
     
 

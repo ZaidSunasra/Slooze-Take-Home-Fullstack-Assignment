@@ -123,7 +123,8 @@ export const CartScalarFieldEnum = {
   total_amount: 'total_amount',
   created_at: 'created_at',
   country_id: 'country_id',
-  restaurant_id: 'restaurant_id'
+  restaurant_id: 'restaurant_id',
+  is_shared: 'is_shared'
 } as const
 
 export type CartScalarFieldEnum = (typeof CartScalarFieldEnum)[keyof typeof CartScalarFieldEnum]
@@ -134,7 +135,8 @@ export const CartItemScalarFieldEnum = {
   cart_id: 'cart_id',
   item_id: 'item_id',
   price: 'price',
-  quantity: 'quantity'
+  quantity: 'quantity',
+  user_id: 'user_id'
 } as const
 
 export type CartItemScalarFieldEnum = (typeof CartItemScalarFieldEnum)[keyof typeof CartItemScalarFieldEnum]

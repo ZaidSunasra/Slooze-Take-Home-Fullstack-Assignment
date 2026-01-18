@@ -22,14 +22,15 @@ model Country {
 }
 
 model User {
-  id         Int      @id @default(autoincrement())
+  id         Int        @id @default(autoincrement())
   name       String
   email      String
   password   String
   role       Role
-  country    Country? @relation(fields: [country_id], references: [id])
+  country    Country?   @relation(fields: [country_id], references: [id])
   country_id Int?
   carts      Cart[]
+  cartItems  CartItem[]
 
   @@index([country_id])
 }
@@ -57,17 +58,18 @@ model RestaurantItem {
 }
 
 model Cart {
-  id           Int         @id @default(autoincrement())
-  created_by   User        @relation(fields: [user_id], references: [id])
-  user_id      Int
-  status       Cart_Status
-  total_amount Int
-  created_at   DateTime    @default(now())
-  country      Country     @relation(fields: [country_id], references: [id])
-  country_id   Int
-  restaurant   Restaurant  @relation(fields: [restaurant_id], references: [id])
-  items        CartItem[]
+  id            Int         @id @default(autoincrement())
+  created_by    User        @relation(fields: [user_id], references: [id])
+  user_id       Int
+  status        Cart_Status
+  total_amount  Int
+  created_at    DateTime    @default(now())
+  country       Country     @relation(fields: [country_id], references: [id])
+  country_id    Int
+  restaurant    Restaurant  @relation(fields: [restaurant_id], references: [id])
+  items         CartItem[]
   restaurant_id Int
+  is_shared  Boolean 
 
   @@index([country_id])
 }
@@ -80,6 +82,8 @@ model CartItem {
   item_id  Int
   price    Int
   quantity Int
+  added_by User @relation(fields: [user_id], references: [id])
+  user_id   Int
 
   @@index([cart_id])
 }
@@ -110,6 +114,7 @@ enum Cart_Status {
   draft
   placed
   cancelled
+  shared
 }
 
 enum Role {

@@ -21,7 +21,8 @@ export type Payment_Mode = (typeof Payment_Mode)[keyof typeof Payment_Mode]
 export const Cart_Status = {
   draft: 'draft',
   placed: 'placed',
-  cancelled: 'cancelled'
+  cancelled: 'cancelled',
+  shared: 'shared'
 } as const
 
 export type Cart_Status = (typeof Cart_Status)[keyof typeof Cart_Status]
